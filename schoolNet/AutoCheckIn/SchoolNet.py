@@ -19,8 +19,8 @@ get_challenge_api="http://10.248.98.2/cgi-bin/get_challenge"
 srun_portal_api="http://10.248.98.2/cgi-bin/srun_portal"
 srun_dm_api="http://10.248.98.2/cgi-bin/rad_user_dm"
 
-username="33318********"
-password="********"
+username="3331803**"
+password="****"
 n = '200'
 type = '1'
 ac_id='1'
@@ -148,4 +148,6 @@ def logout():
 	srun_dm_res=requests.get(srun_dm_api,params=srun_portal_params,headers=header)
 	print(srun_dm_res.text)
 	return srun_dm_res.text
+if __name__ == '__main__':
+        login()
 	

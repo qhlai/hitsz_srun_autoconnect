@@ -48,12 +48,33 @@ class Logger(object):
                     #日志格式
                     )
         
-        
+def log(msg):
+ 
+    logger = logging.getLogger("App")
+    handler = logging.FileHandler('log.txt')
+ 
+    logger.setLevel(logging.INFO)                #设置日志等级
+    # 日志输出格式
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    # 输入到控制台
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+ 
+    logger.addHandler(handler)
+    logger.addHandler(console)
+ 
+    logger.info(msg)
+    #移除处理器
+    logger.removeHandler(handler)
+    logger.removeHandler(console)
+    
 if __name__ == '__main__':
-    log = Logger('all.log',level='debug')
-    log.logger.debug('debug')
-    log.logger.info('info')
-    log.logger.warning('警告')
-    log.logger.error('报错')
-    log.logger.critical('严重')
-    Logger('all.log', level='error').logger.error('error')
+    #log = Logger('all.log',level='debug')
+    #log.logger.debug('debug')
+    #log.logger.info('info')
+    #log.logger.warning('警告')
+    #log.logger.error('报错')
+    #log.logger.critical('严重')
+    #Logger('all.log', level='error').logger.error('error')
+    log("123")

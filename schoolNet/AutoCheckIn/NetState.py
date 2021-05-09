@@ -1,7 +1,7 @@
 #coding=utf-8
 #!/usr/bin/env python
 import socket
-MaxSuccessTime=2
+MaxSuccessTime=1
 MaxFailTime=1
 
 NoNetSchool=1
@@ -17,11 +17,11 @@ def isNetOK(testserver):
     MaxTry=Max(MaxSuccessTime,MaxFailTime);
     success=0
     fail=0
-    isOK=False
+    ve=False
 
     for i in range(MaxTry):
         s=socket.socket()
-        s.settimeout(3)
+        s.settimeout(1)
         try:
             status = s.connect_ex(testserver)
             if status == 0:
@@ -44,43 +44,43 @@ def isNetOK(testserver):
             break
     return isOK
 
-
 def isNetSchoolOK(testserver=('10.248.98.2',443)):
-    isOK = isNetOK(testserver)
-    return isOK
+    return isNetOK(testserver)
 
 def isNetChinaOK():
-    isOK = (isNetOK(('www.baidu.com',443))) and (isNetOK(('www.sina.com',443)))
-    return isOK
+    #isOK = (isNetOK(('www.baidu.com',443))) and (isNetOK(('www.sina.com',443)))
+    return (isNetOK(('www.baidu.com',443))) and (isNetOK(('www.sina.com',443)))
 
 
 def isNetWorldOK():
-    isOK = (isNetOK(('www.youtube.com',443))) and (isNetOK(('www.google.com',443)))
-    return isOK
+    #isOK = (isNetOK(('www.youtube.com',443))) or (isNetOK(('www.google.com',443)))
+    return (isNetOK(('www.youtube.com',443))) or (isNetOK(('www.google.com',443)))
+
+def isNetMyServerOK():
+    #isOK = isNetOK(('blog.omate.net',443))
+    return isNetOK(('blog.omate.net',443))
 
 
 def NetEnverionmentDetect():
-    if isNetChinaOK()==False:
-        if isNetSchoolOK==True:
-            print('校园网环境')
-            return '校园网环境，无网络'
-        else:
-            print('校园网环境，无网络')
-            return '校园网环境，无网络'
-    elif isNetChinaOK()==True:
-        if isNetWorldOK==True:
-            print('联网，可上外网')
-            return '联网，可上外网'
-        else:
-            print('联网，不可上外网')
-            return '联网，不可上外网'
+    result='State:'
+    if isNetSchoolOK()==True:
+        result+='校园网 '
+    if isNetChinaOK()==True:
+        result+='国内网 '
+    if isNetWorldOK()==True:
+        result+=' 外网 '
+    if isNetMyServerOK()==True:
+        result+='MyServer'
+    print(result)
+    return result
+
 
 def main():
-    print(isNetSchoolOK())
-    print(isNetChinaOK())
-    print(isNetGoogleOK())
-    print(isNetYouTubeOK())
-
+    #print(isNetSchoolOK())
+    #print(isNetChinaOK())
+    #print(isNetWorldOK())
+    #print(isNetMyServerOK())
+    NetEnverionmentDetect()
 
 if __name__ == '__main__':
     main()
